@@ -1,0 +1,28 @@
+html{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    min-width: 100vw;
+    height: 100vh;
+
+    background-color: aqua;
+}
+app-admin-nav-bar{
+    position: sticky;
+}
+.admin-container{
+    
+    display: flex;
+    flex-direction: row;
+}
+.main-content{
+   
+    width:100%;
+    margin-top: 3%;
+}
+app-navbar{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-right: 0.5px solid rgba(13, 59, 46, .1);
+}

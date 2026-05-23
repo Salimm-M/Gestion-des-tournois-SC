@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;500;600;700&display=swap');
+
+.dialog-wrap {
+  font-family: 'Nunito', sans-serif;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.dialog-header {
+  background: #0D3B2E;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.btn-close {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: rgba(255,255,255,0.7);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+
+.btn-close:hover {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+.gold-bar {
+  height: 3px;
+  background: #D4A843;
+}
+
+.step-form {
+  padding: 1.75rem;
+}
+
+.panel-head {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: #0D3B2E;
+  letter-spacing: .5px;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.panel-head::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: #D4A843;
+  border-radius: 2px;
+}
+
+.fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 1.1rem;
+}
+
+.field label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #0D3B2E;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+}
+
+.field input[type='text'],
+.field input[type='email'],
+.field input[type='password'] {
+  border: none;
+  border-bottom: 2px solid #dce8e3;
+  padding: 9px 4px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  color: #1a2e28;
+  background: transparent;
+  outline: none;
+  transition: border-color .2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.field input:focus {
+  border-bottom-color: #D4A843;
+}
+
+.field input::placeholder {
+  color: #b0c4bc;
+}
+
+.select-role {
+  border: none;
+  border-bottom: 2px solid #dce8e3;
+  padding: 9px 4px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  color: #1a2e28;
+  background: transparent;
+  outline: none;
+  transition: border-color .2s;
+  width: 100%;
+  cursor: pointer;
+  appearance: none;
+}
+
+.select-role:focus {
+  border-bottom-color: #D4A843;
+}
+
+.error {
+  font-size: 11.5px;
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.step-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(13,59,46,.08);
+  margin-top: 0.5rem;
+}
+
+.btn-next {
+  background: #0D3B2E;
+  color: #fff;
+  border: none;
+  padding: 11px 28px;
+  border-radius: 10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+
+.btn-next:hover:not(:disabled) {
+  background: #D4A843;
+  color: #0D3B2E;
+  transform: translateY(-1px);
+}
+
+.btn-next:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1.5px solid #0D3B2E;
+  color: #0D3B2E;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.btn-ghost:hover {
+  background: rgba(13,59,46,.06);
+}

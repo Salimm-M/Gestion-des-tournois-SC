@@ -1,0 +1,18 @@
+<div class="delete-wrap">
+
+  <div class="delete-header">
+    <h2>Supprimer Stade</h2>
+  </div>
+
+  <div class="delete-body">
+    <p>Voulez-vous vraiment supprimer :</p>
+    <h3>{{ data.stade.nom }}</h3>
+    <span>{{ data.stade.ville }}</span>
+  </div>
+
+  <div class="delete-actions">
+    <button class="btn-cancel" (click)="cancel()">Annuler</button>
+    <button class="btn-delete" (click)="confirm()">Supprimer</button>
+  </div>
+
+</div>

@@ -1,0 +1,94 @@
+<div class="page-wrap">
+
+  <div class="page-header">
+    <div class="page-icon" style="background:#E1F5EE">
+      <mat-icon style="color:#0F6E56">check_circle</mat-icon>
+    </div>
+    <div>
+      <h1 class="page-title">Mes participations</h1>
+      <p class="page-sub">Les tournois auxquels vous êtes inscrit</p>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading-wrap">
+      <mat-spinner diameter="36"></mat-spinner>
+      <p>Chargement...</p>
+    </div>
+  } @else if (participations.length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">sports_soccer</mat-icon>
+      <p class="empty-title">Aucune participation</p>
+      <p class="empty-sub">Vous n'êtes inscrit à aucun tournoi pour le moment</p>
+    </div>
+  } @else {
+    <div class="cards-grid">
+      @for (p of participations; track p.id) {
+        <div class="t-card">
+
+          <div class="inscrit-badge">
+            <mat-icon style="font-size:13px;width:13px;height:13px">check</mat-icon>
+            Inscrit
+          </div>
+
+          <div class="card-top">
+            <span class="badge" [ngClass]="getTypeCss(p.tournoiType)">{{p.tournoiType}}</span>
+            <span class="badge" [ngClass]="getStatutCss(p.tournoiStatut)">{{getStatutLabel(p.tournoiStatut)}}</span>
+          </div>
+
+          <h3 class="t-name">{{p.tournoiNom}}</h3>
+
+          <div class="t-meta">
+            <span class="meta-row">
+              <mat-icon class="meta-ic">calendar_today</mat-icon>
+              {{p.tournoiDateDebut | date:'dd/MM/yyyy'}} → {{p.tournoiDateFin | date:'dd/MM/yyyy'}}
+            </span>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <span class="stat-val">{{p.points}}</span>
+              <span class="stat-lbl">Points</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val">{{p.nbVictoires}}</span>
+              <span class="stat-lbl">Victoires</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val">{{p.nbNuls}}</span>
+              <span class="stat-lbl">Nuls</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val">{{p.nbDefaites}}</span>
+              <span class="stat-lbl">Défaites</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val">{{p.butsMarques}}</span>
+              <span class="stat-lbl">Buts +</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val" [style.color]="p.differenceButs >= 0 ? '#0F6E56' : '#A32D2D'">
+                {{p.differenceButs > 0 ? '+' : ''}}{{p.differenceButs}}
+              </span>
+              <span class="stat-lbl">Diff.</span>
+            </div>
+          </div>
+
+          @if (p.tournoiEstLance) {
+            <div class="launched-info">
+              <mat-icon style="font-size:16px;width:16px;height:16px">play_circle</mat-icon>
+              Tournoi lancé · impossible de quitter
+            </div>
+          } @else {
+            <button class="btn-quit" (click)="quitter(p.id)">
+              <mat-icon>exit_to_app</mat-icon>
+              Quitter le tournoi
+            </button>
+          }
+
+        </div>
+      }
+    </div>
+  }
+
+</div>

@@ -1,0 +1,21 @@
+
+.modern-dialog .mat-mdc-dialog-surface {
+  border-radius: 20px !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.modern-dialog .mat-mdc-dialog-container {
+  padding: 0 !important;
+}
+.modern-dialog .mat-mdc-dialog-surface {
+  border-radius: 24px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+.transparent-dialog .mat-mdc-dialog-surface {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}

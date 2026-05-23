@@ -1,0 +1,22 @@
+html{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    min-width: 100vw;
+    height: 100vh;
+
+    background-color: aqua;
+}
+app-admin-nav-bar{
+    position: sticky;
+}
+.admin-container{
+    
+    display: flex;
+    flex-direction: row;
+}
+.main-content{
+   
+    width:100%;
+    margin-top: 3%;
+}

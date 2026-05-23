@@ -1,0 +1,76 @@
+<div class="page-wrap">
+
+  <div class="page-header">
+    <div class="page-icon" style="background:#E6F1FB">
+      <mat-icon style="color:#185FA5">search</mat-icon>
+    </div>
+    <div>
+      <h1 class="page-title">Tournois disponibles</h1>
+      <p class="page-sub">Rejoignez un tournoi ouvert aux inscriptions</p>
+    </div>
+  </div>
+@if(error){
+  <div class="error-banner">
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ error }}</span>
+  </div>
+}
+
+  @if (loading) {
+    <div class="loading-wrap">
+      <mat-spinner diameter="36"></mat-spinner>
+      <p>Chargement...</p>
+    </div>
+  } @else if (disponibles.length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <p class="empty-title">Aucun tournoi disponible</p>
+      <p class="empty-sub">Il n'y a pas de tournoi ouvert aux inscriptions pour le moment</p>
+    </div>
+  } @else {
+    <div class="cards-grid">
+      @for (t of disponibles; track t.id) {
+        <div class="t-card">
+          <div class="card-top">
+            <span class="badge" [ngClass]="getTypeCss(t.typeTournoi)">{{t.typeTournoi}}</span>
+            <span class="badge" [ngClass]="getStatutCss(t.statut)">{{getStatutLabel(t.statut)}}</span>
+          </div>
+
+          <h3 class="t-name">{{t.nom}}</h3>
+
+          <div class="t-meta">
+            <span class="meta-row">
+              <mat-icon class="meta-ic">calendar_today</mat-icon>
+              {{t.dateDebut | date:'dd/MM/yyyy'}} → {{t.dateFin | date:'dd/MM/yyyy'}}
+            </span>
+            <span class="meta-row">
+              <mat-icon class="meta-ic">groups</mat-icon>
+              {{t.nbParticipations}} / {{t.nbEquipes}} équipes inscrites
+            </span>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-bar">
+              <div class="progress-fill"
+                [style.width.%]="(t.nbParticipations / t.nbEquipes) * 100">
+              </div>
+            </div>
+            <span class="progress-label">
+              {{t.nbEquipes - t.nbParticipations}} place(s) restante(s)
+            </span>
+          </div>
+
+          <button class="btn-join" (click)="rejoindre(t.id,t.nbJoueurSurTerrain)" [disabled]="joining === t.id">
+            @if (joining === t.id) {
+              <mat-spinner diameter="16" style="display:inline-block"></mat-spinner>
+            } @else {
+              <mat-icon>add_circle_outline</mat-icon>
+            }
+            Rejoindre
+          </button>
+        </div>
+      }
+    </div>
+  }
+
+</div>

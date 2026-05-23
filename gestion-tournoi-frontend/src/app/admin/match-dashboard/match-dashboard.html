@@ -1,0 +1,330 @@
+<div class="dashboard">
+
+  <!-- ── Toasts ─────────────────────────────────────── -->
+  @if (successMsg) {
+    <div class="toast toast-ok">✓ {{ successMsg }}</div>
+  }
+  @if (errorMsg) {
+    <div class="toast toast-err">✕ {{ errorMsg }}</div>
+  }
+
+  <!-- ── Loading ───────────────────────────────────── -->
+  @if (matchLoading) {
+    <div class="full-center">
+      <div class="spinner"></div>
+      <p>Chargement du match...</p>
+    </div>
+  }
+
+  @if (!matchLoading && match) {
+
+    <!-- ══ SCOREBOARD ══════════════════════════════════ -->
+    <div class="scoreboard">
+
+      <div class="sb-team sb-home">
+        <div class="sb-av" style="background:#4361ee">
+          {{ initials(match.equipeDomicile.nom) }}
+        </div>
+        <span class="sb-name">{{ match.equipeDomicile.nom }}</span>
+      </div>
+
+      <div class="sb-center">
+        <div class="sb-score">
+          <span [class.score-winner]="scoreA > scoreB">{{ scoreA }}</span>
+          <span class="sb-sep">–</span>
+          <span [class.score-winner]="scoreB > scoreA">{{ scoreB }}</span>
+        </div>
+        <div class="sb-chips">
+          <span class="chip-date">{{ match.dateMatch | date:'dd MMM yyyy' }}</span>
+          @if (match.heureDebut) {
+            <span class="chip-time">{{ match.heureDebut }}</span>
+          }
+          <button class="chip-live" (click)="terminer()">
+            <span class="ldot"></span>terminer le match
+          </button>
+        </div>
+        <div class="sb-statut">{{ match.statut }}</div>
+      </div>
+
+      <div class="sb-team sb-away">
+        <span class="sb-name">{{ match.equipeExterieur.nom }}</span>
+        <div class="sb-av" style="background:#ef4444">
+          {{ initials(match.equipeExterieur.nom) }}
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MAIN GRID ════════════════════════════════════ -->
+    <div class="main-grid">
+
+      <!-- ── Team A ──────────────────────────────────── -->
+      <div class="team-panel">
+
+        <div class="panel-head home-head">
+          <div class="ph-av" style="background:#4361ee">
+            {{ initials(match.equipeDomicile.nom) }}
+          </div>
+          <span class="ph-name">{{ match.equipeDomicile.nom }}</span>
+          <span class="ph-count">{{ joueursA.length }} joueurs</span>
+        </div>
+
+        @if (loadingA) {
+          <div class="panel-state">⏳ Chargement...</div>
+        }
+
+        @if (!loadingA && joueursA.length === 0) {
+          <div class="panel-state">Aucun joueur enregistré</div>
+        }
+
+        @for (j of joueursA; track j.id) {
+          <div class="player-row">
+            <div class="player-left">
+              <div class="player-av av-home">
+                {{ initials(j.prenom + ' ' + j.nom) }}
+              </div>
+              <div class="player-meta">
+                <span class="player-name">{{ j.prenom }} {{ j.nom }}</span>
+                @if (j.poste) {
+                  <span class="player-poste">{{ j.poste }}</span>
+                }
+              </div>
+            </div>
+            <div class="player-btns">
+              <button class="pb" (click)="openModal(j, 'BUT')"   matTooltip="Ajouter un but">⚽</button>
+              <button class="pb" (click)="openModal(j, 'JAUNE')" matTooltip="Carton jaune">🟨</button>
+              <button class="pb" (click)="openModal(j, 'ROUGE')" matTooltip="Carton rouge">🟥</button>
+            </div>
+          </div>
+        }
+
+      </div>
+
+      <!-- ── Timeline ────────────────────────────────── -->
+      <div class="tl-panel">
+
+        <div class="tl-head">
+          <span class="tl-title">⏱ Chronologie</span>
+          <span class="tl-badge">{{ events.length }}</span>
+        </div>
+
+        @if (loadingEvents) {
+          <div class="panel-state">⏳ Chargement...</div>
+        }
+
+        @if (!loadingEvents && events.length === 0) {
+          <div class="tl-empty">
+            <span>📋</span>
+            <p>Aucun événement<br>pour le moment</p>
+          </div>
+        }
+
+        @for (e of events; track e.id) {
+          <div class="tl-row" [class.tl-home]="isHome(e)" [class.tl-away]="!isHome(e)">
+
+            <!-- Home side (left) -->
+            @if (isHome(e)) {
+              <div class="tl-info tl-info-left">
+                <span class="tl-player">{{ e.joueurNom }}</span>
+                <span class="tl-team">{{ e.equipeNom }}</span>
+              </div>
+            } @else {
+              <div class="tl-info"></div>
+            }
+
+            <!-- Center bubble + delete button -->
+            <div class="tl-mid">
+              <div class="tl-bubble"
+                   [class.b-but]="e.type === 'BUT'"
+                   [class.b-jaune]="e.type === 'JAUNE'"
+                   [class.b-rouge]="e.type === 'ROUGE'">
+                {{ icons[e.type] }}
+              </div>
+              <span class="tl-min">{{ e.minute }}'</span>
+              <!-- DELETE BUTTON -->
+              <button
+                class="tl-del"
+                (click)="openDeleteModal(e)"
+                matTooltip="Annuler cet événement"
+              >✕</button>
+            </div>
+
+            <!-- Away side (right) -->
+            @if (!isHome(e)) {
+              <div class="tl-info tl-info-right">
+                <span class="tl-player">{{ e.joueurNom }}</span>
+                <span class="tl-team">{{ e.equipeNom }}</span>
+              </div>
+            } @else {
+              <div class="tl-info"></div>
+            }
+
+          </div>
+        }
+
+      </div>
+
+      <!-- ── Team B ──────────────────────────────────── -->
+      <div class="team-panel">
+
+        <div class="panel-head away-head">
+          <span class="ph-count">{{ joueursB.length }} joueurs</span>
+          <span class="ph-name">{{ match.equipeExterieur.nom }}</span>
+          <div class="ph-av" style="background:#ef4444">
+            {{ initials(match.equipeExterieur.nom) }}
+          </div>
+        </div>
+
+        @if (loadingB) {
+          <div class="panel-state">⏳ Chargement...</div>
+        }
+
+        @if (!loadingB && joueursB.length === 0) {
+          <div class="panel-state">Aucun joueur enregistré</div>
+        }
+
+        @for (j of joueursB; track j.id) {
+          <div class="player-row player-row-rev">
+            <div class="player-btns">
+              <button class="pb" (click)="openModal(j, 'BUT')"   matTooltip="Ajouter un but">⚽</button>
+              <button class="pb" (click)="openModal(j, 'JAUNE')" matTooltip="Carton jaune">🟨</button>
+              <button class="pb" (click)="openModal(j, 'ROUGE')" matTooltip="Carton rouge">🟥</button>
+            </div>
+            <div class="player-left player-right">
+              <div class="player-meta meta-right">
+                <span class="player-name">{{ j.prenom }} {{ j.nom }}</span>
+                @if (j.poste) {
+                  <span class="player-poste">{{ j.poste }}</span>
+                }
+              </div>
+              <div class="player-av av-away">
+                {{ initials(j.prenom + ' ' + j.nom) }}
+              </div>
+            </div>
+          </div>
+        }
+
+      </div>
+
+    </div>
+  }
+
+  <!-- ══ ADD EVENT MODAL ════════════════════════════════════ -->
+  @if (modal.open && modal.joueur && modal.type) {
+    <div class="backdrop" (click)="closeModal()">
+      <div class="modal-box" (click)="$event.stopPropagation()" [formGroup]="form">
+
+        <div class="modal-head" [style.border-top-color]="modalColor">
+          <div class="modal-icon-wrap" [style.background]="modalColor + '18'">
+            <span class="modal-icon">{{ icons[modal.type] }}</span>
+          </div>
+          <div class="modal-info">
+            <h3>{{ labels[modal.type] }}</h3>
+            <p>{{ modal.joueur.prenom }} {{ modal.joueur.nom }}</p>
+          </div>
+          <button class="modal-x" (click)="closeModal()">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <span class="field-label">Minute du match</span>
+
+          <div class="minute-big" [style.color]="modalColor">
+            {{ form.value.minute }}<span class="prime">'</span>
+          </div>
+
+          <input
+            type="range"
+            formControlName="minute"
+            min="0" max="120" step="1"
+            class="slider"
+            [style.accent-color]="modalColor"
+          />
+
+          <div class="slider-marks">
+            <span>0'</span>
+            <span>45' <em>MT</em></span>
+            <span>90'</span>
+            <span>120' <em>Prol.</em></span>
+          </div>
+
+          <input
+            type="number"
+            formControlName="minute"
+            min="0" max="120"
+            class="num-input"
+            placeholder="Saisir la minute"
+          />
+
+          @if (form.get('minute')?.errors && form.get('minute')?.dirty) {
+            <p class="field-err">La minute doit être entre 0 et 120</p>
+          }
+        </div>
+
+        <div class="modal-foot">
+          <button class="m-cancel" (click)="closeModal()">Annuler</button>
+          <button
+            class="m-confirm"
+            [style.background]="modalColor"
+            [disabled]="form.invalid || savingEvent"
+            (click)="confirmEvent()"
+          >
+            @if (savingEvent) { ⏳ Enregistrement... }
+            @else { ✓ Confirmer }
+          </button>
+        </div>
+
+      </div>
+    </div>
+  }
+
+  <!-- ══ DELETE EVENT MODAL ════════════════════════════════ -->
+  @if (deleteModal.open && deleteModal.event) {
+    <div class="backdrop" (click)="closeDeleteModal()">
+      <div class="modal-box modal-delete-box" (click)="$event.stopPropagation()">
+
+        <div class="modal-head" [style.border-top-color]="deleteEventColor">
+          <div class="modal-icon-wrap del-icon-wrap">
+            <span class="modal-icon">🚫</span>
+          </div>
+          <div class="modal-info">
+            <h3>Annuler l'événement</h3>
+            <p>{{ labels[deleteModal.event.type] }} — {{ deleteModal.event.joueurNom }}</p>
+          </div>
+          <button class="modal-x" (click)="closeDeleteModal()">✕</button>
+        </div>
+
+        <div class="modal-body del-body">
+          <div class="del-event-preview">
+            <div class="tl-bubble del-preview-bubble"
+                 [class.b-but]="deleteModal.event.type === 'BUT'"
+                 [class.b-jaune]="deleteModal.event.type === 'JAUNE'"
+                 [class.b-rouge]="deleteModal.event.type === 'ROUGE'">
+              {{ icons[deleteModal.event.type] }}
+            </div>
+            <div class="del-event-info">
+              <span class="del-event-label">{{ labels[deleteModal.event.type] }}</span>
+              <span class="del-event-player">{{ deleteModal.event.joueurNom }}</span>
+              <span class="del-event-team">{{ deleteModal.event.equipeNom }} · {{ deleteModal.event.minute }}'</span>
+            </div>
+          </div>
+          <p class="del-warning">
+            ⚠️ Cette action est irréversible. L'événement sera définitivement supprimé.
+          </p>
+        </div>
+
+        <div class="modal-foot">
+          <button class="m-cancel" (click)="closeDeleteModal()">Conserver</button>
+          <button
+            class="m-confirm m-delete"
+            [disabled]="deletingEvent"
+            (click)="confirmDelete()"
+          >
+            @if (deletingEvent) { ⏳ Annulation... }
+            @else { 🗑 Annuler l'événement }
+          </button>
+        </div>
+
+      </div>
+    </div>
+  }
+
+</div>

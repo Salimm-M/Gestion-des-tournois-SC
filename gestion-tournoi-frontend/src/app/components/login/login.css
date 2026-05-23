@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;500;600;700&display=swap');
+
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  background: #f0f4f0;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Nunito', sans-serif;
+}
+
+.login-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(13,59,46,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13,59,46,.04) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.login-page::after {
+  content: '';
+  position: fixed;
+  top: -80px;
+  right: -80px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 40px solid rgba(212, 168, 67, .08);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Card ─────────────────────────────────────────────── */
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(13, 59, 46, .1);
+  box-shadow: 0 4px 32px rgba(13, 59, 46, .08);
+  overflow: hidden;
+}
+
+/* ── Header ───────────────────────────────────────────── */
+.card-header {
+  background: #0D3B2E;
+  padding: 2rem 2rem 1.5rem;
+  text-align: center;
+}
+
+.card-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: #fff;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.card-header p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, .5);
+  margin: 0;
+  letter-spacing: .5px;
+}
+
+.gold-bar {
+  height: 3px;
+  background: #D4A843;
+}
+
+/* ── Body ─────────────────────────────────────────────── */
+.card-body {
+  padding: 2rem;
+}
+
+/* ── Input group ──────────────────────────────────────── */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 1.4rem;
+}
+
+.input-group label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #0D3B2E;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+}
+
+.input-group input {
+  border: none;
+  border-bottom: 2px solid #dce8e3;
+  padding: 9px 4px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  color: #1a2e28;
+  background: transparent;
+  outline: none;
+  transition: border-color .2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-group input::placeholder {
+  color: #b0c4bc;
+}
+
+.input-group input:focus {
+  border-bottom-color: #D4A843;
+}
+
+/* ── Errors ───────────────────────────────────────────── */
+.error {
+  font-size: 11.5px;
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.error-msg {
+  background: rgba(192, 57, 43, .07);
+  border: 1px solid rgba(192, 57, 43, .2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #c0392b;
+  margin-bottom: 1.2rem;
+}
+
+/* ── Submit button ────────────────────────────────────── */
+button[type="submit"] {
+  width: 100%;
+  background: #0D3B2E;
+  color: #fff;
+  border: none;
+  padding: 13px;
+  border-radius: 10px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  margin-top: 0.5rem;
+}
+
+button[type="submit"]:hover {
+  background: #D4A843;
+  color: #0D3B2E;
+  transform: translateY(-1px);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+button[type="submit"]:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Register link ────────────────────────────────────── */
+.register-link {
+  text-align: center;
+  padding: 1.2rem;
+  border-top: 1px solid rgba(13, 59, 46, .07);
+  font-size: 13px;
+  color: #9bb0a8;
+}
+
+.register-link a {
+  color: #0D3B2E;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.register-link a:hover {
+  color: #D4A843;
+}

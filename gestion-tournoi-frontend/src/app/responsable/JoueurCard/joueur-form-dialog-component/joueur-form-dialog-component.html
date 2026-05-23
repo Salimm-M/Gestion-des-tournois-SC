@@ -1,0 +1,111 @@
+<div class="dialog-wrap">
+
+  <div class="modal-header">
+    <h2>{{ data.joueur ? 'Modifier le joueur' : 'Nouveau joueur' }}</h2>
+    <button class="modal-close" (click)="cancel()">✕</button>
+  </div>
+
+  <form class="modal-form" (ngSubmit)="submit(formRef)" #formRef="ngForm">
+
+    <div class="form-row">
+
+    
+      <div class="form-group">
+        <label>Prénom</label>
+        <input
+          type="text"
+          [(ngModel)]="form.prenom"
+          name="prenom"
+          #prenom="ngModel"
+          required
+          minlength="2"
+        >
+
+        @if (prenom.invalid && prenom.touched) {
+          <small class="error">
+            @if (prenom.errors?.['required']) { Prénom obligatoire }
+            @if (prenom.errors?.['minlength']) { Minimum 2 caractères }
+          </small>
+        }
+      </div>
+
+
+      <div class="form-group">
+        <label>Nom</label>
+        <input
+          type="text"
+          [(ngModel)]="form.nom"
+          name="nom"
+          #nom="ngModel"
+          required
+          minlength="2"
+        >
+
+        @if (nom.invalid && nom.touched) {
+          <small class="error">
+            @if (nom.errors?.['required']) { Nom obligatoire }
+            @if (nom.errors?.['minlength']) { Minimum 2 caractères }
+          </small>
+        }
+      </div>
+
+    </div>
+
+    <div class="form-row">
+
+      <div class="form-group">
+        <label>Date de naissance</label>
+        <input
+          type="date"
+          [(ngModel)]="form.dateNaiss"
+          name="dateNaiss"
+          #dateNaiss="ngModel"
+          required
+        >
+
+        @if (dateNaiss.invalid && dateNaiss.touched ) {
+          <small class="error">Date de naissance obligatoire</small>
+        }
+         
+         @if (ageError) {
+          <small class="error">Le joueur doit avoir au moins 6 ans et maximum 12 ans</small>
+        }
+      </div>
+
+ 
+      <div class="form-group">
+        <label>Poste</label>
+        <select
+          [(ngModel)]="form.poste"
+          name="poste"
+          #poste="ngModel"
+          required
+        >
+          <option value="">-- Choisir --</option>
+          <option *ngFor="let p of postes">{{ p }}</option>
+        </select>
+
+        @if (poste.invalid && poste.touched) {
+          <small class="error">Poste obligatoire</small>
+        }
+      </div>
+
+    </div>
+
+
+    <div class="modal-actions">
+      <button type="button" class="btn-cancel" (click)="cancel()">
+        Annuler
+      </button>
+
+      <button
+        type="submit"
+        class="btn-save"
+        [disabled]="formRef.invalid || saving"
+      >
+        {{ saving ? '...' : (data.joueur ? 'Enregistrer' : 'Créer') }}
+      </button>
+    </div>
+
+  </form>
+</div>

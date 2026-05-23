@@ -1,0 +1,134 @@
+<div class="classement-page">
+
+  <div class="top-bar">
+    <div class="select-wrap">
+      <i class="ti ti-trophy" aria-hidden="true"></i>
+      <select [(ngModel)]="selectedTournoiId" (ngModelChange)="onTournoiChange()">
+        <option [ngValue]="null">— Choisir un tournoi —</option>
+        <option *ngFor="let t of tournois" [ngValue]="t.id">{{ t.nom }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!selectedTournoiId && !loading">
+    <i class="ti ti-trophy" aria-hidden="true"></i>
+    <p>Sélectionner un tournoi pour afficher le classement</p>
+  </div>
+
+  <div class="error-state" *ngIf="error">
+    <i class="ti ti-alert-circle" aria-hidden="true"></i>
+    <p>{{ error }}</p>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Chargement...</p>
+  </div>
+
+  <ng-container *ngIf="selectedTournoi && !loading && !error">
+
+    <!-- Carte résumé mon équipe -->
+    <div class="my-team-card" *ngIf="myRow && myRank">
+      <div class="t-avatar">{{ getInitials(myRow.equipeNom) }}</div>
+      <div class="info">
+        <div class="label">Mon équipe</div>
+        <div class="name">{{ myRow.equipeNom }}</div>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="val">{{ myRank }}</div>
+          <div class="lbl">Rang</div>
+        </div>
+        <div class="stat">
+          <div class="val">{{ myRow.points }}</div>
+          <div class="lbl">PTS</div>
+        </div>
+        <div class="stat">
+          <div class="val">{{ getMatchesJoues(myRow) }}</div>
+          <div class="lbl">MJ</div>
+        </div>
+        <div class="stat">
+          <div class="val">{{ getDiffStr(myRow.differenceButs) }}</div>
+          <div class="lbl">DB</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header-section">
+      <h2>{{ selectedTournoi.nom }}</h2>
+      <span class="badge-count">{{ classement.length }} équipes</span>
+    </div>
+
+    <!-- Tableau -->
+    <div class="table-wrap" *ngIf="classement.length > 0; else noMatches">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">#</th>
+            <th class="left">Équipe</th>
+            <th title="Matchs joués">MJ</th>
+            <th class="col-v" title="Victoires">V</th>
+            <th title="Nuls">N</th>
+            <th class="col-d" title="Défaites">D</th>
+            <th title="Buts marqués">BM</th>
+            <th title="Buts encaissés">BE</th>
+            <th title="Différence de buts">DB</th>
+            <th title="Points">PTS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let row of classement; let i = index"
+            [class.my-row]="isMyTeam(row)"
+            [class.zone-q]="isQualification(i)"
+            [class.zone-d]="isRelegation(i)"
+          >
+            <td>
+              <span class="rank" [ngClass]="{
+                'rank-me': isMyTeam(row),
+                'rank-1': !isMyTeam(row) && getRank(i) === 1,
+                'rank-2': !isMyTeam(row) && getRank(i) === 2,
+                'rank-3': !isMyTeam(row) && getRank(i) === 3,
+                'rank-n': !isMyTeam(row) && getRank(i) > 3
+              }">{{ getRank(i) }}</span>
+            </td>
+            <td class="left">
+              <div class="team-cell">
+                <div class="t-avatar">{{ getInitials(row.equipeNom) }}</div>
+                <span class="t-name">{{ row.equipeNom }}</span>
+                <span class="me-badge" *ngIf="isMyTeam(row)">Moi</span>
+              </div>
+            </td>
+            <td>{{ getMatchesJoues(row) }}</td>
+            <td class="col-v">{{ row.nbVictoires }}</td>
+            <td>{{ row.nbNuls }}</td>
+            <td class="col-d">{{ row.nbDefaites }}</td>
+            <td>{{ row.butsMarques }}</td>
+            <td>{{ row.butsEncaisses }}</td>
+            <td class="diff" [ngClass]="!isMyTeam(row) ? getDiffClass(row.differenceButs) : ''">
+              {{ getDiffStr(row.differenceButs) }}
+            </td>
+            <td class="pts">{{ row.points }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #noMatches>
+      <div class="no-matches">
+        <i class="ti ti-calendar-off" aria-hidden="true"></i>
+        <p>Aucune donnée de classement disponible</p>
+      </div>
+    </ng-template>
+
+    <div class="legend" *ngIf="classement.length > 4">
+      <div class="legend-item"><div class="legend-bar blue"></div><span>Zone qualification</span></div>
+      <div class="legend-item"><div class="legend-bar red"></div><span>Zone relégation</span></div>
+      <div class="legend-item" *ngIf="idEquipeEnValeur">
+        <div class="legend-bar blue-circle"></div><span>Mon équipe</span>
+      </div>
+    </div>
+
+  </ng-container>
+</div>

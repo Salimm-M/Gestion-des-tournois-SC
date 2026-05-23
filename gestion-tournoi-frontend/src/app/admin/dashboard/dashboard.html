@@ -1,0 +1,122 @@
+<div class="page">
+
+
+  <div class="welcome-card">
+    <div class="wc-left">
+      <h1>Bienvenue, Admin 👋</h1>
+      <p>{{ today | titlecase }}</p>
+    </div>
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      Système actif
+    </div>
+  </div>
+
+ 
+  @if (loading) {
+    <div class="stats-grid">
+      @for (i of [1,2,3,4]; track i) {
+        <div class="skel-card"></div>
+      }
+    </div>
+  }
+
+  @if (!loading) {
+
+    <div class="stats-grid">
+      <div class="stat-card" [routerLink]="['/admin/tournois']">
+        <div class="stat-top">
+          <div class="stat-icon" style="background:#faeeda">🏆</div>
+          <span class="stat-trend">{{ tournoiActifs }} actif(s)</span>
+        </div>
+        <div class="stat-val">{{ totalTournois }}</div>
+        <div class="stat-label">Tournois</div>
+      </div>
+
+      <div class="stat-card" [routerLink]="['/admin/equipes']">
+        <div class="stat-top">
+          <div class="stat-icon" style="background:#eef1fd">⚽</div>
+          <span class="stat-trend trend-up">Inscrites</span>
+        </div>
+        <div class="stat-val">{{ totalEquipes }}</div>
+        <div class="stat-label">Équipes</div>
+      </div>
+
+      <div class="stat-card" [routerLink]="['/admin/match']">
+        <div class="stat-top">
+          <div class="stat-icon" style="background:#eaf3de">👤</div>
+          <span class="stat-trend trend-up">Enregistrés</span>
+        </div>
+        <div class="stat-val">{{ totalJoueurs }}</div>
+        <div class="stat-label">Joueurs</div>
+      </div>
+
+      <div class="stat-card" [routerLink]="['/admin/classement']">
+        <div class="stat-top">
+          <div class="stat-icon" style="background:#fcebeb">🏅</div>
+          <span class="stat-trend">Live</span>
+        </div>
+        <div class="stat-val">{{ tournoiActifs }}</div>
+        <div class="stat-label">Tournois en cours</div>
+      </div>
+    </div>
+
+    <div class="main-grid">
+
+   
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">🏆 Tournois récents</span>
+          <a class="card-link" [routerLink]="['/admin/tournois']">Voir tout →</a>
+        </div>
+
+        @if (recentTournois.length === 0) {
+          <div class="card-empty">Aucun tournoi</div>
+        }
+
+        @for (t of recentTournois; track t.id) {
+          <div class="t-row" [routerLink]="['/admin/tournois']">
+            <div class="t-info">
+              <span class="t-name">{{ t.nom }}</span>
+              <span class="t-meta">
+                {{ t.typeTournoi }} · {{ t.nbEquipes }} équipes
+              </span>
+            </div>
+            <span class="badge" [ngClass]="statutClass(t.statut)">
+              {{ statutLabel(t.statut) }}
+            </span>
+            <div class="t-date">
+              <span>Fin</span>
+              <span>{{ formatDate(t.dateFin) }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+   
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">⚡ Actions rapides</span>
+        </div>
+        <div class="qa-list">
+          @for (a of quickActions; track a.route) {
+            <a class="qa-item" [routerLink]="[a.route]">
+              <div class="qa-icon" [style.background]="a.bg">{{ a.icon }}</div>
+              <div class="qa-text">
+                <span class="qa-label">{{ a.label }}</span>
+                <span class="qa-sub">{{ a.sub }}</span>
+              </div>
+              <span class="qa-arrow">→</span>
+            </a>
+          }
+        </div>
+      </div>
+
+    </div>
+
+
+  
+
+  }
+
+</div>

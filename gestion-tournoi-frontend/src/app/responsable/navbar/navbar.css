@@ -1,0 +1,150 @@
+/* ===== CSS Variables ===== */
+:host {
+  --sidebar-width: 240px;
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #f0f0f0;
+
+  --brand-color: #1a1a2e;
+
+  --nav-text: #6b7280;
+  --nav-text-hover: #111827;
+  --nav-bg-hover: #f5f7ff;
+  --nav-active-text: #4361ee;
+  --nav-active-bg: #eef1fd;
+  --nav-active-indicator: #4361ee;
+
+  --logout-text: #9ca3af;
+  --logout-hover-text: #ef4444;
+  --logout-hover-bg: #fff5f5;
+
+  --radius: 10px;
+  --transition: 0.18s ease;
+
+  display: block;
+  height: 100%;
+}
+
+/* ===== Sidebar Container ===== */
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 12px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* ===== Brand ===== */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 12px 28px;
+}
+
+.brand-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.brand-name {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--brand-color);
+  letter-spacing: -0.3px;
+}
+
+/* ===== Navigation ===== */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--nav-text);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background var(--transition), color var(--transition);
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background: var(--nav-bg-hover);
+  color: var(--nav-text-hover);
+}
+
+.nav-item.active {
+  background: var(--nav-active-bg);
+  color: var(--nav-active-text);
+  font-weight: 600;
+}
+
+/* Active left indicator bar */
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--nav-active-indicator);
+}
+
+/* ===== Icons ===== */
+.nav-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: color var(--transition);
+}
+
+.brand-trophy {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  color: #f59e0b;
+}
+
+/* ===== Footer / Logout ===== */
+.sidebar-footer {
+  padding-top: 16px;
+  border-top: 1px solid var(--sidebar-border);
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--logout-text);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.logout-btn:hover {
+  background: var(--logout-hover-bg);
+  color: var(--logout-hover-text);
+}

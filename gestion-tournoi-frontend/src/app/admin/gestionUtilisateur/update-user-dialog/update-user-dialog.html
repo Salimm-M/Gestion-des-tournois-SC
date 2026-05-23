@@ -1,0 +1,70 @@
+<div class="dialog-wrap">
+
+  <div class="dialog-header">
+    <span class="dialog-title">Modifier utilisateur</span>
+    <button class="btn-close" type="button" (click)="cancel()">✕</button>
+  </div>
+
+  <div class="gold-bar"></div>
+
+  <form [formGroup]="form" class="step-form">
+
+    <div class="panel-head">Informations personnelles</div>
+
+    <div class="fields-row">
+      <div class="field">
+        <label>Nom *</label>
+        <input type="text" formControlName="nom" placeholder="Dupont">
+        @if (form.get('nom')?.touched && form.get('nom')?.invalid) {
+          <div class="error">Nom requis</div>
+        }
+      </div>
+
+      <div class="field">
+        <label>Prénom *</label>
+        <input type="text" formControlName="prenom" placeholder="Jean">
+        @if (form.get('prenom')?.touched && form.get('prenom')?.invalid) {
+          <div class="error">Prénom requis</div>
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Email *</label>
+      <input type="email" formControlName="email" placeholder="jean@example.com">
+      @if (form.get('email')?.touched && form.get('email')?.hasError('required')) {
+        <div class="error">Email requis</div>
+      }
+      @if (form.get('email')?.touched && form.get('email')?.hasError('email')) {
+        <div class="error">Email invalide</div>
+      }
+      @if (emailExists) {
+        <div class="error">Cet email est déjà utilisé</div>
+      }
+    </div>
+
+ 
+
+    <div class="field">
+      <label>Rôle *</label>
+      <select formControlName="role" class="select-role">
+        <option value="" disabled>Choisir un rôle</option>
+        @for (r of roles; track r.value) {
+          <option [value]="r.value">{{ r.label }}</option>
+        }
+      </select>
+      @if (form.get('role')?.touched && form.get('role')?.invalid) {
+        <div class="error">Rôle requis</div>
+      }
+    </div>
+
+    <div class="step-actions">
+      <button type="button" class="btn-ghost" (click)="cancel()">Annuler</button>
+      <button type="button" class="btn-next" (click)="submit()" [disabled]="loading">
+        {{ loading ? 'Enregistrement...' : 'Modifier →' }}
+      </button>
+    </div>
+
+  </form>
+
+</div>

@@ -1,0 +1,347 @@
+/* ─── Google Fonts ─────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500&display=swap');
+
+/* ─── Reset & Base ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── Page ─────────────────────────────────────────────── */
+
+.page-bg {
+  min-height: 100vh;
+  background: #f4f2ee;
+  padding: 2.5rem 2rem;
+  font-family: 'Barlow', sans-serif;
+}
+
+/* ─── Header ───────────────────────────────────────────── */
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+
+.page-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.title-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2563eb;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.btn-add {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #2563eb;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.btn-add:hover  { opacity: 0.88; }
+.btn-add:active { transform: scale(0.97); }
+
+/* ─── Loading ───────────────────────────────────────────── */
+
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(37, 99, 235, 0.15);
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Error banner ──────────────────────────────────────── */
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fef2f2;
+  border: 0.5px solid rgba(220, 38, 38, 0.3);
+  border-radius: 8px;
+  color: #b91c1c;
+  font-size: 13px;
+  padding: 10px 14px;
+  margin-bottom: 1.5rem;
+}
+
+.error-banner button {
+  background: none;
+  border: none;
+  color: #b91c1c;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 4px;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+.error-banner button:hover { opacity: 1; }
+
+/* ─── Cards grid ────────────────────────────────────────── */
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ─── FIFA Card ─────────────────────────────────────────── */
+
+.fifa-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: cardIn 0.35s ease both;
+}
+
+.fifa-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Card band ─────────────────────────────────────────── */
+
+.card-band {
+  position: relative;
+  height: 68px;
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 60%, #60a5fa 100%);
+  overflow: hidden;
+}
+
+.band-circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  top: -30px;
+  right: -20px;
+}
+
+.band-circle2 {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  bottom: -20px;
+  left: 10px;
+}
+
+.badge-poste {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* ─── Avatar ────────────────────────────────────────────── */
+
+.avatar-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: -24px;
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.5px solid #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-initials {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #2563eb;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ─── Card body ─────────────────────────────────────────── */
+
+.card-body {
+  padding: 10px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+}
+
+.card-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.card-fullname {
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.card-divider {
+  width: 36px;
+  height: 1px;
+  background: rgba(37, 99, 235, 0.25);
+  margin: 3px 0;
+}
+
+/* ─── Stats ─────────────────────────────────────────────── */
+
+.card-stats {
+  display: flex;
+  width: 100%;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 3px;
+  border-right: 0.5px solid rgba(0, 0, 0, 0.07);
+}
+
+.stat-item:last-child { border-right: none; }
+
+.stat-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2563eb;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.stat-lbl {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+/* ─── Card actions ──────────────────────────────────────── */
+
+.card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.07);
+}
+
+.btn-action {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  padding: 10px 0;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-edit {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.06);
+  border-right: 0.5px solid rgba(0, 0, 0, 0.07);
+}
+
+.btn-edit:hover { background: rgba(37, 99, 235, 0.12); }
+
+.btn-delete {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.04);
+}
+
+.btn-delete:hover { background: rgba(220, 38, 38, 0.1); }
+
+/* ─── Empty state ───────────────────────────────────────── */
+
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 5rem 0;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  opacity: 0.3;
+}
+
+.empty-state p {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}

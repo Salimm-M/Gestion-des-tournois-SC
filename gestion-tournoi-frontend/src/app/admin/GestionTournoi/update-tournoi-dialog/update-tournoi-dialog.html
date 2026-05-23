@@ -1,0 +1,109 @@
+<div class="d-overlay" (click)="onCancel()">
+  <div class="d-card" (click)="$event.stopPropagation()">
+
+    <div class="d-topbar"></div>
+
+    <div class="d-body">
+      <div class="d-icon" style="background:#E1F5EE">
+        <mat-icon style="color:#0F6E56">edit</mat-icon>
+      </div>
+      <h2 class="d-title">Modifier le tournoi</h2>
+      <p class="d-sub">Modifiez les informations du tournoi</p>
+
+      <form [formGroup]="form">
+
+        <div class="f-group">
+          <label class="f-label">Nom du tournoi</label>
+          <input class="f-input" formControlName="nom" />
+          @if (form.get('nom')?.invalid && form.get('nom')?.touched) {
+            <span class="f-error">Le nom est obligatoire</span>
+          }
+        </div>
+
+        <div class="f-group">
+          <label class="f-label">Type de tournoi</label>
+          <div class="chip-row">
+            @for (type of types; track type) {
+              <button type="button" class="chip"
+                [ngClass]="[type.css, form.get('typeTournoi')?.value === type.value ? 'chip-on' : '']"
+                (click)="selectType(type.value)">
+                <mat-icon class="chip-ic">{{type.icon}}</mat-icon>
+                {{type.label}}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="f-group">
+          <label class="f-label">Statut</label>
+          <div class="chip-row">
+            @for (s of statuts; track s) {
+              <button type="button" class="chip"
+                [ngClass]="[s.css, form.get('statut')?.value === s.value ? 'chip-on' : '']"
+                (click)="selectStatut(s.value)">
+                {{s.label}}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="f-row">
+          <div class="f-group">
+            <label class="f-label">Date début</label>
+            <input class="f-input" type="date" formControlName="dateDebut" />
+            @if (form.get('dateDebut')?.invalid && form.get('dateDebut')?.touched) {
+              <span class="f-error">Obligatoire</span>
+            }
+          </div>
+          <div class="f-group">
+            <label class="f-label">Date fin</label>
+            <input class="f-input" type="date" formControlName="dateFin" />
+            @if (form.get('dateFin')?.invalid && form.get('dateFin')?.touched) {
+              <span class="f-error">Obligatoire</span>
+            }
+          </div>
+        </div>
+
+        @if (form.errors?.['dateInvalide'] && form.get('dateFin')?.touched) {
+          <span class="f-error">La date de fin doit être après la date de début</span>
+        }
+
+        <div class="f-group">
+          <label class="f-label">Nombre d'équipes</label>
+          <input class="f-input" type="number" formControlName="nbEquipes" min="2" />
+          @if (form.get('nbEquipes')?.hasError('min') && form.get('nbEquipes')?.touched) {
+            <span class="f-error">Minimum 2 équipes</span>
+          }
+        </div>
+
+        <div class="toggle-wrap">
+          <div class="toggle-info">
+            <span class="toggle-title">Inscriptions ouvertes</span>
+            @if (form.get('ouvert')?.value) {
+              <span class="toggle-hint open">Le tournoi accepte des équipes</span>
+            } @else {
+              <span class="toggle-hint closed">Les inscriptions sont fermées</span>
+            }
+          </div>
+          <div class="toggle-track"
+            [class.toggle-active]="form.get('ouvert')?.value"
+            (click)="toggleOuvert()">
+            <div class="toggle-thumb"></div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="d-divider"></div>
+
+    <div class="d-footer">
+      <button class="btn-cancel" (click)="onCancel()">Annuler</button>
+      <button class="btn-primary" style="background:#0F6E56" (click)="onSubmit()" [disabled]="form.invalid">
+        <mat-icon>check_circle_outline</mat-icon>
+        Enregistrer
+      </button>
+    </div>
+
+  </div>
+</div>

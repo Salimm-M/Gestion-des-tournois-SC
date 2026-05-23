@@ -1,0 +1,210 @@
+:host {
+  display: contents;
+}
+
+:host ::ng-deep .mat-mdc-dialog-surface {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.d-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 18, 40, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.d-card {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 500px;
+  max-width: 95vw;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+}
+
+.d-topbar {
+  height: 5px;
+  background: #185FA5;
+}
+
+.d-body {
+  padding: 32px 32px 24px;
+}
+
+.d-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: #E6F1FB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.d-icon mat-icon {
+  color: #185FA5;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.d-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0d1117;
+  margin: 0 0 6px;
+}
+
+.d-sub {
+  font-size: 13px;
+  color: #8b9eb0;
+  margin: 0 0 28px;
+}
+
+.f-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.f-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8b9eb0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.f-input {
+  height: 46px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0 14px;
+  font-size: 14px;
+  color: #0d1117;
+  background: #f8fafc;
+  outline: none;
+  font-family: inherit;
+  transition: border 0.15s, background 0.15s;
+  width: 100%;
+}
+
+.f-input:focus {
+  border-color: #378ADD;
+  background: #ffffff;
+}
+
+.f-row {
+  display: flex;
+  gap: 14px;
+}
+
+.f-row .f-group {
+  flex: 1;
+}
+
+.f-error {
+  font-size: 12px;
+  color: #E24B4A;
+  margin-top: 5px;
+}
+
+/* Chips */
+.chip-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 50px;
+  border: 1.5px solid transparent;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.chip-ic {
+  font-size: 15px !important;
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.chip-elim            { background: #FAECE7; color: #712B13; }
+.chip-elim.chip-on    { border-color: #993C1D; background: #F5C4B3; }
+
+.chip-ligue           { background: #EEEDFE; color: #3C3489; }
+.chip-ligue.chip-on   { border-color: #534AB7; background: #CECBF6; }
+
+.chip-amical          { background: #E1F5EE; color: #085041; }
+.chip-amical.chip-on  { border-color: #0F6E56; background: #9FE1CB; }
+
+/* Footer */
+.d-divider {
+  height: 1px;
+  background: #f0f3f7;
+  margin: 0 32px;
+}
+
+.d-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 18px 32px 28px;
+}
+
+.btn-cancel {
+  height: 44px;
+  padding: 0 22px;
+  border-radius: 12px;
+  border: 1.5px solid #e0e6ed;
+  background: white;
+  color: #7a8fa6;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.btn-cancel:hover { background: #f5f7fa; }
+
+.btn-primary {
+  height: 44px;
+  padding: 0 24px;
+  border-radius: 12px;
+  border: none;
+  background: #185FA5;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background 0.15s;
+}
+
+.btn-primary:hover:not(:disabled) { background: #0C447C; }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-primary mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}

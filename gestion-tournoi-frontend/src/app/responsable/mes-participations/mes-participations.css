@@ -1,0 +1,93 @@
+.page-wrap { padding: 32px; max-width: 1100px; margin: 0 auto; }
+
+.page-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 32px;
+}
+.page-icon {
+  width: 52px; height: 52px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.page-icon mat-icon { font-size: 28px; width: 28px; height: 28px; }
+.page-title { font-size: 24px; font-weight: 700; color: #0d1117; margin: 0 0 4px; }
+.page-sub   { font-size: 13px; color: #8b9eb0; margin: 0; }
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 18px;
+}
+
+.t-card {
+  background: #ffffff;
+  border: 1.5px solid #9FE1CB;
+  border-radius: 18px;
+  padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+  background: #fafffe;
+}
+
+.inscrit-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #E1F5EE; color: #085041;
+  font-size: 11px; font-weight: 600;
+  padding: 4px 10px; border-radius: 50px; width: fit-content;
+}
+.inscrit-badge mat-icon { font-size: 13px !important; width: 13px !important; height: 13px !important; }
+
+.card-top { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.badge { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 50px; }
+.type-elim  { background: #FAECE7; color: #712B13; }
+.type-ligue { background: #EEEDFE; color: #3C3489; }
+.type-amical{ background: #E1F5EE; color: #085041; }
+.stat-att   { background: #FAEEDA; color: #633806; }
+.stat-cours { background: #E1F5EE; color: #085041; }
+.stat-comp  { background: #E6F1FB; color: #0C447C; }
+.stat-term  { background: #EEEDFE; color: #3C3489; }
+
+.t-name { font-size: 17px; font-weight: 700; color: #0d1117; margin: 0; }
+
+.t-meta { display: flex; flex-direction: column; gap: 5px; }
+.meta-row { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #8b9eb0; }
+.meta-ic { font-size: 15px !important; width: 15px !important; height: 15px !important; }
+
+.stats-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+}
+.stat-box {
+  background: #f8fafc; border-radius: 10px;
+  padding: 10px 8px; text-align: center;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.stat-val { font-size: 18px; font-weight: 700; color: #0d1117; }
+.stat-lbl { font-size: 10px; color: #8b9eb0; font-weight: 500; }
+
+.launched-info {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; color: #0F6E56;
+  background: #E1F5EE; border-radius: 10px; padding: 10px 14px;
+}
+.launched-info mat-icon { font-size: 16px !important; width: 16px !important; height: 16px !important; }
+
+.btn-quit {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  height: 42px; border: 1.5px solid #F09595; border-radius: 12px;
+  background: #FCEBEB; color: #A32D2D;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit; margin-top: 4px; transition: background .15s;
+}
+.btn-quit:hover { background: #F7C1C1; }
+.btn-quit mat-icon { font-size: 18px !important; width: 18px !important; height: 18px !important; }
+
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 80px 20px; text-align: center;
+}
+.empty-icon  { font-size: 54px !important; width: 54px !important; height: 54px !important; color: #d0d8e4; margin-bottom: 16px; }
+.empty-title { font-size: 18px; font-weight: 600; color: #4a5568; margin: 0 0 8px; }
+.empty-sub   { font-size: 14px; color: #8b9eb0; margin: 0; }
+
+.loading-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 16px; padding: 60px; color: #8b9eb0; font-size: 14px;
+}

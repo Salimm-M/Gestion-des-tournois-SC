@@ -1,0 +1,188 @@
+<div class="page-bg">
+
+  <div class="page-header">
+    <h1 class="page-title">
+      <span class="title-dot"></span>
+      Effectif
+    </h1>
+
+    <div class="ph-right">
+      <label class="file-label">
+        ↑
+        <span class="file-name" #fileName>Importer CSV</span>
+
+        <input
+          type="file"
+          (change)="onFileSelected($event); fileName.textContent = $any($event.target).files[0]?.name || 'Importer CSV'"
+        >
+      </label>
+
+      <button class="btn-add" (click)="openCreateModal()">
+        + Nouveau joueur
+      </button>
+    </div>
+  </div>
+
+  <!-- ERREURS CSV -->
+  <div class="csv-errors" *ngIf="erreurs.length > 0">
+
+    <div class="csv-errors-header">
+
+      <span>
+        ⚠️ Erreurs détectées dans le fichier CSV
+      </span>
+
+      <button
+        class="close-errors"
+        (click)="erreurs = []"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <ul>
+
+      @for (err of erreurs; track $index) {
+
+        <li>
+          {{ err }}
+        </li>
+
+      }
+
+    </ul>
+
+  </div>
+
+  <div class="loading-wrap" *ngIf="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="error-banner" *ngIf="error">
+    {{ error }}
+    <button (click)="error = null">✕</button>
+  </div>
+
+  <div class="cards-grid">
+
+    @for (j of joueurs; track $index) {
+
+      <div class="fifa-card">
+
+        <div class="card-band">
+          <div class="band-circle"></div>
+          <div class="band-circle2"></div>
+
+          <div class="badge-poste">
+            {{ j.poste | slice:0:3 | uppercase }}
+          </div>
+        </div>
+
+        <div class="avatar-wrap">
+
+          <div class="avatar-circle">
+
+            <span class="avatar-initials">
+              {{ j.prenom[0] }}{{ j.nom[0] }}
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="card-body">
+
+          <div class="card-name">
+            {{ j.nom | uppercase }}
+          </div>
+
+          <div class="card-fullname">
+            {{ j.prenom }}
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="card-stats">
+
+            <div class="stat-item">
+              <span class="stat-val">
+                {{ getAge(j.dateNaiss) }}
+              </span>
+
+              <span class="stat-lbl">
+                Âge
+              </span>
+            </div>
+
+            <div class="stat-item">
+              <span class="stat-val">
+                {{ j.poste | slice:0:3 | uppercase }}
+              </span>
+
+              <span class="stat-lbl">
+                Poste
+              </span>
+            </div>
+
+            <div class="stat-item">
+              <span class="stat-val">
+                {{ j.idEquipe ?? '—' }}
+              </span>
+
+              <span class="stat-lbl">
+                Club
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="card-actions">
+
+          <button
+            class="btn-action btn-edit"
+            (click)="openEditModal(j)"
+          >
+            Modifier
+          </button>
+
+          <button
+            class="btn-action btn-delete"
+            (click)="confirmDelete(j)"
+          >
+            Supprimer
+          </button>
+
+        </div>
+
+      </div>
+
+    }
+
+    <div
+      class="empty-state"
+      *ngIf="!loading && joueurs.length === 0"
+    >
+
+      <div class="empty-icon">
+        ⚽
+      </div>
+
+      <p>
+        Aucun joueur dans l'effectif
+      </p>
+
+      <button
+        class="btn-add"
+        (click)="openCreateModal()"
+      >
+        Ajouter le premier joueur
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

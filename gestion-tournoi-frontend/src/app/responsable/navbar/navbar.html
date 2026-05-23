@@ -1,0 +1,31 @@
+<aside class="sidebar">
+
+  <!-- Logo / Brand -->
+  <div class="sidebar-brand">
+    <mat-icon class="brand-trophy">emoji_events</mat-icon>
+    <span class="brand-name">SportManager</span>
+  </div>
+
+
+  <nav class="sidebar-nav">
+    @for (item of navItems; track $index) {
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+
+
+  <div class="sidebar-footer">
+    <button class="logout-btn" type="button" (click)="logout()">
+      <mat-icon class="nav-icon">logout</mat-icon>
+      <span class="nav-label">Déconnexion</span>
+    </button>
+  </div>
+
+</aside>

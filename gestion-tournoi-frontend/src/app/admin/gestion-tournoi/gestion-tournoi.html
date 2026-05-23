@@ -1,0 +1,90 @@
+<div class="header-section">
+  <button mat-raised-button color="primary" class="ajout-btn" (click)="openCreateDialog()">
+    <mat-icon>emoji_events</mat-icon>
+    Ajouter un tournoi
+  </button>
+
+  <div class="search-container">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      type="text"
+      #filter
+      (keyup)="applyFilter(filter)"
+      placeholder="Rechercher un tournoi..."
+      class="search-input"
+    />
+  </div>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="nom">
+    <th mat-header-cell *matHeaderCellDef> Nom </th>
+    <td mat-cell *matCellDef="let element"> <strong>{{element.nom}}</strong> </td>
+  </ng-container>
+
+  <ng-container matColumnDef="typeTournoi">
+    <th mat-header-cell *matHeaderCellDef> Type </th>
+    <td mat-cell *matCellDef="let element">
+      <span class="type-badge">{{element.typeTournoi}}</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="dateDebut">
+    <th mat-header-cell *matHeaderCellDef> Date début </th>
+    <td mat-cell *matCellDef="let element"> {{element.dateDebut | date:'dd/MM/yyyy'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="dateFin">
+    <th mat-header-cell *matHeaderCellDef> Date fin </th>
+    <td mat-cell *matCellDef="let element"> {{element.dateFin | date:'dd/MM/yyyy'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="nbEquipes">
+    <th mat-header-cell *matHeaderCellDef> Équipes </th>
+    <td mat-cell *matCellDef="let element"> {{element.nbEquipes}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="nbParticipations">
+    <th mat-header-cell *matHeaderCellDef> Participants </th>
+    <td mat-cell *matCellDef="let element"> {{element.nbParticipations}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="statut">
+    <th mat-header-cell *matHeaderCellDef> Statut </th>
+    <td mat-cell *matCellDef="let element">
+      <span class="badge" [ngClass]="getStatutClass(element.statut)">
+        {{getStatutLabel(element.statut)}}
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="ouvert">
+    <th mat-header-cell *matHeaderCellDef> Ouvert </th>
+    <td mat-cell *matCellDef="let element">
+      <span class="ouvert-dot" [ngClass]="element.ouvert ? 'dot-green' : 'dot-red'"></span>
+      {{element.ouvert ? 'Oui' : 'Non'}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="primary" (click)="openUpdateDialog(element)" matTooltip="Modifier">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" (click)="lancerTournoi(element.id)"
+        [disabled]="element.estLance" matTooltip="Lancer">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="deleteTournoi(element.id)" matTooltip="Supprimer">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

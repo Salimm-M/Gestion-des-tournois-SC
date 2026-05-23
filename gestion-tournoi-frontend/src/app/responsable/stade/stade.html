@@ -1,0 +1,76 @@
+<div class="page-bg">
+
+  <div class="page-header">
+    <h1 class="page-title">
+      <span class="title-dot"></span>
+      Stades
+    </h1>
+    <button class="btn-add" (click)="openCreateModal()">+ Nouveau stade</button>
+  </div>
+
+  <div class="loading-wrap" *ngIf="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="error-banner" *ngIf="error">
+    {{ error }}
+    <button (click)="error = null">✕</button>
+  </div>
+
+  <div class="cards-grid">
+
+    @for (s of stades; track $index) {
+      <div class="fifa-card">
+
+        <div class="card-band">
+          <div class="band-circle"></div>
+          <div class="band-circle2"></div>
+          <div class="badge-poste">{{ s.ville  }}</div>
+        </div>
+
+        <div class="avatar-wrap">
+          <div class="avatar-circle">
+            <span class="avatar-initials">{{ s.nom[0] }}</span>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="card-name">{{ s.nom  }}</div>
+          <div class="card-fullname">{{ s.ville }}</div>
+
+          <div class="card-divider"></div>
+
+          <div class="card-stats">
+            <div class="stat-item">
+              <span class="stat-val">{{ s.heureOuverture }}</span>
+              <span class="stat-lbl">Ouverture</span>
+            </div>
+
+            <div class="stat-item">
+              <span class="stat-val">{{ s.heureFermeture }}</span>
+              <span class="stat-lbl">Fermeture</span>
+            </div>
+
+            <div class="stat-item">
+              <span class="stat-val">{{ s.matchIds?.length || 0 }}</span>
+              <span class="stat-lbl">Matchs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn-action btn-edit" (click)="openEditModal(s)">Modifier</button>
+          <button class="btn-action btn-delete" (click)="confirmDelete(s)">Supprimer</button>
+        </div>
+
+      </div>
+    }
+
+    <div class="empty-state" *ngIf="!loading && stades.length === 0">
+      <div class="empty-icon">🏟️</div>
+      <p>Aucun stade</p>
+      <button class="btn-add" (click)="openCreateModal()">Ajouter</button>
+    </div>
+
+  </div>
+</div>

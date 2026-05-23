@@ -1,0 +1,20 @@
+<div class="dialog-wrap">
+
+  <div class="modal-header danger">
+    <h2>Confirmer la suppression</h2>
+    <button class="modal-close" (click)="cancel()">✕</button>
+  </div>
+
+  <p class="delete-msg">
+    Supprimer <strong>{{ data.joueur.prenom }} {{ data.joueur.nom }}</strong> ?
+    Cette action est irréversible.
+  </p>
+
+  <div class="modal-actions">
+    <button class="btn-cancel" (click)="cancel()">Annuler</button>
+    <button class="btn-delete-confirm" (click)="confirm()" [disabled]="saving">
+      {{ saving ? '...' : 'Supprimer' }}
+    </button>
+  </div>
+
+</div>

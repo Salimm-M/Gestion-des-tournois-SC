@@ -1,0 +1,69 @@
+<div class="dialog-wrap">
+
+  <div class="modal-header">
+    <h2>{{ data.stade ? 'Modifier un stade' : 'Créer un stade' }}</h2>
+    <button type="button" (click)="cancel()">✕</button>
+  </div>
+
+  <form (ngSubmit)="submit(formRef)" #formRef="ngForm">
+
+    <div class="field">
+      <label for="nom">Nom du stade</label>
+      <input
+        id="nom"
+        type="text"
+        name="nom"
+        placeholder="Ex: Stade de France"
+        [(ngModel)]="form.nom"
+        required
+        minlength="2"
+      >
+    </div>
+
+    <div class="field">
+      <label for="ville">Ville</label>
+      <input
+        id="ville"
+        type="text"
+        name="ville"
+        placeholder="Ex: Paris"
+        [(ngModel)]="form.ville"
+        required
+      >
+    </div>
+
+    <div class="time-row">
+      <div class="time-group">
+        <label for="ouverture">Heure d'ouverture</label>
+        <input
+          id="ouverture"
+          type="time"
+          name="o"
+          [(ngModel)]="form.heureOuverture"
+          required
+        >
+      </div>
+      <div class="time-group">
+        <label for="fermeture">Heure de fermeture</label>
+        <input
+          id="fermeture"
+          type="time"
+          name="f"
+          [(ngModel)]="form.heureFermeture"
+          required
+        >
+      </div>
+    </div>
+
+    <div class="error-heure" *ngIf="!isHeureValid()">
+      ⚠ L'heure de fermeture doit être après l'ouverture.
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-cancel" (click)="cancel()">Annuler</button>
+      <button type="submit" [disabled]="formRef.invalid || !isHeureValid()">Enregistrer</button>
+    </div>
+
+  </form>
+
+</div>

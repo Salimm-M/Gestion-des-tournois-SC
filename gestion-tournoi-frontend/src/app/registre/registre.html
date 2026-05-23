@@ -1,0 +1,181 @@
+<div class="stepper-page">
+
+  <button
+    class="toggle-linear-btn"
+    [class.active]="isLinear"
+    (click)="isLinear = !isLinear"
+    type="button"
+  >
+    {{ isLinear ? 'Désactiver le mode linéaire' : 'Activer le mode linéaire' }}
+  </button>
+
+  <mat-stepper [linear]="isLinear" #stepper class="luxury-stepper">
+
+    <!-- STEP 1 -->
+    <mat-step [stepControl]="firstFormGroup">
+      <ng-template matStepLabel>Données</ng-template>
+
+      <form [formGroup]="firstFormGroup" class="step-form">
+
+        <div class="panel-head">Informations personnelles</div>
+
+        <div class="fields-row">
+
+          <!-- NOM -->
+          <div class="field">
+            <label>Nom *</label>
+            <input type="text" formControlName="nom" placeholder="Dupont">
+
+            @if (firstFormGroup.get('nom')?.touched && firstFormGroup.get('nom')?.invalid) {
+              <div class="error">Nom requis</div>
+            }
+          </div>
+
+          <!-- PRENOM -->
+          <div class="field">
+            <label>Prénom *</label>
+            <input type="text" formControlName="prenom" placeholder="Jean">
+
+            @if (firstFormGroup.get('prenom')?.touched && firstFormGroup.get('prenom')?.invalid) {
+              <div class="error">Prénom requis</div>
+            }
+          </div>
+
+        </div>
+
+        <!-- EMAIL -->
+        <div class="field full">
+          <label>Email *</label>
+          <input type="email" formControlName="email">
+
+          @if (firstFormGroup.get('email')?.touched && firstFormGroup.get('email')?.hasError('required')) {
+            <div class="error">Email requis</div>
+          }
+
+          @if (firstFormGroup.get('email')?.touched && firstFormGroup.get('email')?.hasError('email')) {
+            <div class="error">Email invalide</div>
+          }
+
+          @if (emailExists) {
+            <div class="error">Cet email est déjà utilisé</div>
+          }
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="field full">
+          <label>Mot de passe *</label>
+          <input type="password" formControlName="password">
+
+          @if (firstFormGroup.get('password')?.touched && firstFormGroup.get('password')?.hasError('required')) {
+            <div class="error">Mot de passe requis</div>
+          }
+
+          @if (firstFormGroup.get('password')?.touched && firstFormGroup.get('password')?.hasError('minlength')) {
+            <div class="error">8 caractères minimum</div>
+          }
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn-next" (click)="nextStep(stepper)">
+            Suivant →
+          </button>
+        </div>
+
+      </form>
+    </mat-step>
+
+    <!-- STEP 2 -->
+    <mat-step [stepControl]="secondFormGroup">
+      <ng-template matStepLabel>Club</ng-template>
+
+      <form [formGroup]="secondFormGroup" class="step-form">
+
+        <div class="panel-head">Informations du club</div>
+         <div class="field">
+          <label>Nom Ecole *</label>
+          <input type="text" formControlName="nomEcole">
+
+          @if (secondFormGroup.get('nomEcole')?.touched && secondFormGroup.get('nomEcole')?.invalid) {
+            <div class="error">Nom Ecole requis</div>
+          }
+        </div>
+        
+         <!-- NOM -->
+        <div class="field">
+          <label>Nom Equipe *</label>
+          <input type="text" formControlName="nom">
+
+          @if (secondFormGroup.get('nom')?.touched && secondFormGroup.get('nom')?.invalid) {
+            <div class="error">Nom Equipe requis</div>
+          }
+        </div>
+
+        <!-- ABBREVIATION -->
+        <div class="field">
+          <label>Abbréviation *</label>
+          <input type="text" formControlName="abbreviation">
+
+          @if (secondFormGroup.get('abbreviation')?.touched && secondFormGroup.get('abbreviation')?.invalid) {
+            <div class="error">Abbréviation requise</div>
+          }
+        </div>
+
+       
+
+  
+
+
+        <div class="field">
+          <label>Logo *</label>
+
+          <input type="file" accept="image/*" (change)="onLogoChange($event)">
+
+          @if (logoPreview) {
+            <div class="logo-preview">
+              <img [src]="logoPreview">
+            </div>
+          }
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn-ghost" matStepperPrevious>
+            ← Retour
+          </button>
+
+          <button type="button" class="btn-next" (click)="submitAll(stepper)">
+            Enregistrer
+          </button>
+        </div>
+
+      </form>
+    </mat-step>
+
+
+    <mat-step>
+      <ng-template matStepLabel>Terminé</ng-template>
+
+      <div class="done-wrap">
+        <p class="done-title">Formulaire complété</p>
+        <p class="done-sub">Toutes vos données sont enregistrées</p>
+
+        <div class="step-actions">
+          <button type="button" matStepperPrevious>
+            ← Retour
+          </button>
+
+          <button type="button" (click)="stepper.reset()">
+            Recommencer
+          </button>
+        </div>
+      </div>
+
+    </mat-step>
+
+  </mat-stepper>
+    <div class="register-link">
+  <p>
+    vous avez déjà un compte ?
+    <a routerLink="/login">Se connecter</a>
+  </p>
+</div>
+</div>

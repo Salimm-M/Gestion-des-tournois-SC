@@ -1,0 +1,148 @@
+<div class="page-wrap">
+
+
+  <header class="page-header">
+    <div class="header-left">
+      <h1>🏆 Classement</h1>
+      @if (selectedTournoiNom) {
+        <span class="tournoi-chip">{{ selectedTournoiNom }}</span>
+      }
+    </div>
+
+    <div class="header-right">
+      <select
+        [(ngModel)]="selectedTournoiId"
+        (ngModelChange)="onTournoiChange()"
+        class="tournoi-select"
+        [disabled]="loadingT"
+      >
+        <option [ngValue]="null" disabled>— Sélectionner un tournoi —</option>
+        @for (t of tournois; track t.id) {
+          <option [ngValue]="t.id">{{ t.nom }}</option>
+        }
+      </select>
+    </div>
+  </header>
+
+  @if (errorMsg) {
+    <div class="error-bar">✕ {{ errorMsg }}</div>
+  }
+
+  @if (!selectedTournoiId && !loadingT) {
+    <div class="empty-state">
+      <span>🏆</span>
+      <p>Sélectionnez un tournoi pour afficher le classement</p>
+    </div>
+  }
+
+  
+  @if (loading) {
+    <div class="loading-wrap">
+      <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5,6,7,8]"></div>
+    </div>
+  }
+
+
+  @if (!loading && classement.length > 0) {
+    <div class="table-wrap">
+
+    
+      <div class="legend-bar">
+        <div class="legend-item">
+          <span class="leg-dot dot-gold"></span>Champion
+        </div>
+        <div class="legend-item">
+          <span class="leg-dot dot-top"></span>Podium
+        </div>
+        <div class="legend-item">
+          <span class="leg-dot dot-rel"></span>Relégation
+        </div>
+      </div>
+
+      <table class="cls-table">
+        <thead>
+          <tr>
+            <th class="th-rank">#</th>
+            <th class="th-team">Équipe</th>
+            <th class="th-num" title="Matchs joués">MJ</th>
+            <th class="th-num" title="Victoires">V</th>
+            <th class="th-num" title="Nuls">N</th>
+            <th class="th-num" title="Défaites">D</th>
+            <th class="th-num" title="Buts marqués">BM</th>
+            <th class="th-num" title="Buts encaissés">BE</th>
+            <th class="th-num" title="Différence de buts">DB</th>
+            <th class="th-pts">Pts</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (row of classement; track row.id; let i = $index) {
+            <tr class="cls-row" [class]="zoneClass(i + 1)">
+
+              
+              <td class="td-rank">
+                <div class="rank-wrap">
+                  <span class="rank-dot" [class]="zoneClass(i + 1)"></span>
+                  <span class="rank-num">{{ i + 1 }}</span>
+                </div>
+              </td>
+
+            
+              <td class="td-team">
+                <div class="team-cell">
+                  <div class="team-av" [style.background]="avatarBg(row.equipeNom)">
+                    {{ initials(row.equipeNom) }}
+                  </div>
+                  <span class="team-nom">{{ row.equipeNom }}</span>
+                </div>
+              </td>
+
+         
+              <td class="td-num muted">{{ joues(row) }}</td>
+              <td class="td-num win">{{ row.nbVictoires }}</td>
+              <td class="td-num">{{ row.nbNuls }}</td>
+              <td class="td-num loss">{{ row.nbDefaites }}</td>
+              <td class="td-num">{{ row.butsMarques }}</td>
+              <td class="td-num">{{ row.butsEncaisses }}</td>
+
+     
+              <td class="td-num">
+                <span
+                  class="diff-badge"
+                  [class.diff-pos]="row.differenceButs > 0"
+                  [class.diff-neg]="row.differenceButs < 0"
+                  [class.diff-zero]="row.differenceButs === 0"
+                >
+                  {{ row.differenceButs > 0 ? '+' : '' }}{{ row.differenceButs }}
+                </span>
+              </td>
+
+             
+              <td class="td-pts">
+                <span class="pts-badge" [class]="zoneClass(i + 1)">
+                  {{ row.points }}
+                </span>
+              </td>
+
+            </tr>
+          }
+        </tbody>
+      </table>
+
+
+      <div class="table-footer">
+        {{ classement.length }} équipe(s) — Mis à jour automatiquement
+      </div>
+
+    </div>
+  }
+
+
+  @if (!loading && selectedTournoiId && classement.length === 0 && !errorMsg) {
+    <div class="empty-state">
+      <span>📋</span>
+      <p>Aucun classement disponible pour ce tournoi</p>
+    </div>
+  }
+
+</div>

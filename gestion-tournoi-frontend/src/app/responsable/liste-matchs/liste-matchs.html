@@ -1,0 +1,154 @@
+<div class="page-wrapper">
+
+  <!-- Toasts -->
+  <div class="toast toast-success" *ngIf="successMsg">✓ {{ successMsg }}</div>
+  <div class="toast toast-error"   *ngIf="errorMsg">✕ {{ errorMsg }}</div>
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="header-left">
+      <h1>Matchs</h1>
+      <span class="match-count">{{ allMatches.length }} match(s)</span>
+    </div>
+
+    <div class="header-actions">
+      <select [(ngModel)]="tournoiId" (change)="loadMatches()">
+        <option [value]="null">— Tous les tournois —</option>
+        <option *ngFor="let t of allTournois" [value]="t.id">{{ t.nom }}</option>
+      </select>
+
+      <button class="btn-gen" (click)="genererMatchs()" [disabled]="generating">
+        <span *ngIf="!generating">⚡ Générer</span>
+        <span *ngIf="generating">⏳ Génération...</span>
+      </button>
+
+      <button class="btn-ic" (click)="loadMatches()">↺</button>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <select [(ngModel)]="filterJournee">
+      <option [ngValue]="null">Toutes les journées</option>
+      <option *ngFor="let j of journees" [ngValue]="j">Journée {{ j }}</option>
+    </select>
+
+    <div class="statut-filters">
+      <button class="pill" [class.active]="filterStatut === ''"         (click)="filterStatut = ''">Tous</button>
+      <button class="pill" [class.active-blue]="filterStatut === 'PLANIFIE'"  (click)="filterStatut = 'PLANIFIE'">Planifié</button>
+      <button class="pill" [class.active-amber]="filterStatut === 'EN_COURS'" (click)="filterStatut = 'EN_COURS'">En cours</button>
+      <button class="pill" [class.active-green]="filterStatut === 'TERMINE'"  (click)="filterStatut = 'TERMINE'">Terminé</button>
+      <button class="pill" [class.active-red]="filterStatut === 'ANNULE'"     (click)="filterStatut = 'ANNULE'">Annulé</button>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main-content">
+
+    <!-- Stats cards -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-label">Total matchs</div>
+        <div class="stat-val">{{ allMatches.length }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Planifiés</div>
+        <div class="stat-val green">{{ countByStatut('PLANIFIE') }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">En cours</div>
+        <div class="stat-val amber">{{ countByStatut('EN_COURS') }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Terminés</div>
+        <div class="stat-val">{{ countByStatut('TERMINE') }}</div>
+      </div>
+    </div>
+
+    <!-- Journées groupées -->
+    <div class="jblock" *ngFor="let j of journeesFiltered">
+
+      <div class="jhead">
+        <div class="jhead-left">
+          <span class="jnum">Journée {{ j }}</span>
+          <span class="jdot"></span>
+        </div>
+        <span class="jcount">{{ getMatchesByJournee(j).length }} match(s)</span>
+      </div>
+
+      <div class="mrow"
+           *ngFor="let m of getMatchesByJournee(j)"
+           [class.live-row]="m.statut === 'EN_COURS'">
+
+        <!-- Heure -->
+        <div class="mcol-time">
+          <ng-container *ngIf="m.statut === 'EN_COURS'">
+            <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+          </ng-container>
+          <ng-container *ngIf="m.statut !== 'EN_COURS'">
+            <span class="mtime">{{ m.heureDebut || '—' }}</span>
+          </ng-container>
+          <span class="mdate">{{ formatDate(m.dateMatch) }}</span>
+        </div>
+
+        <!-- Domicile -->
+        <div class="mcol-home">
+          <span class="tname" [class.dim]="isLoser(m, 'dom')">{{ m.equipeDomicile?.nom }}</span>
+          <div class="avatar"
+               [style.background]="avatarBg(m.equipeDomicile?.nom)"
+               [style.color]="avatarColor(m.equipeDomicile?.nom)">
+            {{ initials(m.equipeDomicile?.nom) }}
+          </div>
+        </div>
+
+        <!-- Score -->
+        <div class="mcol-score" [class.live-score]="m.statut === 'EN_COURS'">
+          <ng-container *ngIf="m.statut === 'PLANIFIE'">
+            <span class="svs">VS</span>
+          </ng-container>
+          <ng-container *ngIf="m.statut !== 'PLANIFIE'">
+            <span class="snum">{{ m.scoreDomicile }}</span>
+            <span class="sdash">—</span>
+            <span class="snum">{{ m.scoreExterieur }}</span>
+          </ng-container>
+        </div>
+
+        <!-- Extérieur -->
+        <div class="mcol-away">
+          <div class="avatar"
+               [style.background]="avatarBg(m.equipeExterieur?.nom)"
+               [style.color]="avatarColor(m.equipeExterieur?.nom)">
+            {{ initials(m.equipeExterieur?.nom) }}
+          </div>
+          <span class="tname" [class.dim]="isLoser(m, 'ext')">{{ m.equipeExterieur?.nom }}</span>
+        </div>
+
+        <!-- Statut -->
+        <div class="mcol-statut">
+          <span class="badge" [ngClass]="statutClass(m.statut)">
+            {{ statutLabel(m.statut) }}
+          </span>
+        </div>
+
+        <!-- Actions -->
+        <div class="mcol-actions">
+          <ng-container *ngIf="m.statut === 'PLANIFIE' || !m.heureDebut">
+            <button class="abtn abtn-plan" (click)="planifierMatch(m.id)">🗓 Planifier</button>
+            <button class="abtn abtn-score" (click)="score(m.id)">⚽ Score</button>
+          </ng-container>
+          <ng-container *ngIf="m.statut !== 'PLANIFIE' && m.heureDebut">
+            <button class="abtn abtn-edit" (click)="score(m.id)">✏ Score </button>
+          </ng-container>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="filteredMatches.length === 0 && !loadingMatches">
+      <span style="font-size: 28px">📭</span>
+      <p>Aucun match trouvé</p>
+    </div>
+
+  </div>
+</div>

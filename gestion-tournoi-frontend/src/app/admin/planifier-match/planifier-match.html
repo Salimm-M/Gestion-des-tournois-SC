@@ -1,0 +1,68 @@
+<div class="page-wrapper">
+
+  <div class="toast toast-success" *ngIf="successMsg">✓ {{ successMsg }}</div>
+  <div class="toast toast-error"   *ngIf="errorMsg">✕ {{ errorMsg }}</div>
+
+  <header class="page-header">
+    <div>
+      <h1>Planifier un match</h1>
+      <p class="subtitle">
+        Sélectionnez un stade et une date — les créneaux s'affichent automatiquement.
+      </p>
+    </div>
+  </header>
+
+  <div class="planifier-layout">
+
+    <section class="form-card">
+      <h2 class="card-title">🏟️ Sélection</h2>
+
+      <div class="field">
+        <label>Stade</label>
+        <select [(ngModel)]="selectedStadeId" (ngModelChange)="onSelectionChange()">
+          <option [ngValue]="null" disabled>— Choisir un stade —</option>
+          <option *ngFor="let s of stades" [ngValue]="s.id">{{ s.nom }}</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Date du match</label>
+        <input type="date" [(ngModel)]="selectedDate" (ngModelChange)="onSelectionChange()" />
+      </div>
+
+      <div class="slots-section" *ngIf="selectedStadeId && selectedDate">
+        <div class="slots-header">
+          <h3>Créneaux disponibles</h3>
+        </div>
+
+        <div class="slots-loading" *ngIf="loadingSlots">⏳ Chargement...</div>
+
+        <div class="slots-grid" *ngIf="!loadingSlots">
+          <button
+            *ngFor="let slot of availableSlots"
+            class="slot-btn"
+            [class.slot-available]="isAvailable(slot)"
+            [class.slot-occupied]="!isAvailable(slot)"
+            [class.slot-selected]="selectedSlot === slot"
+            [disabled]="!isAvailable(slot)"
+            (click)="selectSlot(slot)"
+          >
+            {{ slot }} – {{ slotEnd(slot) }}
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="summary-card">
+      <h2>📌 Récapitulatif</h2>
+      <p>Stade : {{ selectedStadeId ? selectedStadeName : '—' }}</p>
+      <p>Date : {{ selectedDate ? formatDate(selectedDate) : '—' }}</p>
+      <p>Créneau : {{ selectedSlot ? (selectedSlot + ' - ' + slotEnd(selectedSlot)) : '—' }}</p>
+
+      <button class="btn-confirm" [disabled]="!formValid" (click)="Planifier()">
+        ✓ Confirmer le match
+      </button>
+    </aside>
+
+  </div>
+</div>
